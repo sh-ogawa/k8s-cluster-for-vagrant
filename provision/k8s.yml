@@ -42,3 +42,8 @@
       name: kube-scheduler
       enabled: yes
       state: started
+  - name: enable etcd
+    systemd:
+      name: etcd
+      enabled: yes
+      state: started
