@@ -25,21 +25,21 @@
       name: docker
       enabled: yes
       state: started
-  - name: install kubernetes's master etcd
+  - name: copy yum.repo
+    copy: src=master01/yum-repo/kubernetes.repo dest=/etc/yum.repos.d/
+  - name: install etcd
+    yum: name=etcd state=present
+  - name: install kubernetes's 
     yum: name={{ item }} state=present
     with_items:
-      - etcd
-      - kubernetes-master
+      - kubelet
+      - kubeadm
+      - kubectl
   - name: copy filesystem(diff file only)
     copy: src=master01/etc dest=/
   - name: enable service k8s
     systemd:
-      name: kube-controller-manager
-      enabled: yes
-      state: started
-  - name: enable service k8s
-    systemd:
-      name: kube-scheduler
+      name: kubelet
       enabled: yes
       state: started
   - name: enable etcd
