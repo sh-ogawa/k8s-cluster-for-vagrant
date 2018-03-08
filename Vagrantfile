@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
   config.vm.define :master01 do |node|
     node.vm.network :private_network, ip:"192.168.122.71"
     node.vm.hostname = "master01"
+    node.vm.provider "virtualbox" do |vb|
+      vb.cpus = 2
+    end
   end
   
   config.vm.define :node01 do |node|
@@ -33,7 +36,7 @@ Vagrant.configure("2") do |config|
   
     node.vm.provision "ansible_local" do |ansible|
       ansible.provisioning_path = "/vagrant/provision"
-      ansible.playbook = "k8s.yml"
+      ansible.playbook = "playbook.yml"
       ansible.verbose = true
       ansible.install = true
       ansible.limit = "all" # or only "nodes" group, etc.

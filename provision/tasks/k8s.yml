@@ -1,0 +1,21 @@
+- name: copy yum.repo
+  copy: src=master01/yum-repo/kubernetes.repo dest=/etc/yum.repos.d/
+- name: install kubernetes
+  yum: name={{ item }} state=present
+  with_items:
+    - etcd
+    - kubelet
+    - kubeadm
+    - kubectl
+- name: copy filesystem(diff file only)
+  copy: src=master01/etc dest=/
+- name: enable service k8s
+  systemd:
+    name: kubelet
+    enabled: yes
+    state: started
+- name: enable etcd
+  systemd:
+    name: etcd
+    enabled: yes
+    state: started

@@ -1,0 +1,22 @@
+- name: install docker
+  group: name=docker
+- name: add a docker user
+  user: name=docker password=docker123 group=docker state=present
+- name: install required packages
+  yum: name={{ item }} state=present
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+- name: setup stable docker repository
+  shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+  args:
+    chdir: "/etc/yum.repos.d"
+    creates: docker-ce.repo
+- name: install docker
+  yum: name=docker-ce state=present
+- name: enable service docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

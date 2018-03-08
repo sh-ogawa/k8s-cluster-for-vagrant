@@ -1,0 +1,11 @@
+---
+- name: k8sで遊ぶためのCluster環境構築
+  hosts: master
+  become: true
+  tasks:
+  - name: add swap 2GB
+    include_tasks: tasks/swap.yml
+  - name: install docker
+    include_tasks: tasks/docker.yml
+  - name: install k8s
+    include_tasks: tasks/k8s.yml
