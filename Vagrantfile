@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
     node.vm.hostname = "master01"
     node.vm.provider "virtualbox" do |vb|
       vb.cpus = 2
+      vb.memory = 2048
     end
   end
   

@@ -9,6 +9,8 @@
     - kubectl
 - name: copy filesystem(diff file only)
   copy: src=master01/etc dest=/
+- name: set k8s.conf
+  script: set_k8s_conf.sh
 - name: enable service k8s
   systemd:
     name: kubelet
