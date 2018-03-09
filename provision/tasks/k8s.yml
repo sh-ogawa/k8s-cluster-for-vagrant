@@ -21,3 +21,5 @@
     name: etcd
     enabled: yes
     state: started
+- name: cluster initialize
+  script: init_kubeadm.sh
