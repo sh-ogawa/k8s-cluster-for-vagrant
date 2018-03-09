@@ -23,3 +23,8 @@
     state: started
 - name: cluster initialize
   script: init_kubeadm.sh
+  register: with_output
+  
+- debug:
+    var: with_output
+    verbosity: 2
