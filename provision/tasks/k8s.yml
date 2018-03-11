@@ -24,7 +24,7 @@
 - name: cluster initialize
   script: init_kubeadm.sh
   register: with_output
-  
-- debug:
-    var: with_output
-    verbosity: 2
+    
+- name: debug register variable
+  debug:
+    var: with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]

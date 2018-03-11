@@ -1,4 +1,5 @@
 #!/bin/bash
 
 swapoff -a
-kubeadm init
+#kubeadm reset
+kubeadm init --ignore-preflight-errors all
