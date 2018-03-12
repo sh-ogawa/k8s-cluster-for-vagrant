@@ -25,8 +25,12 @@
   script: init_kubeadm.sh
   register: with_output
 - name: mkdir .kube
-  file: path={{ ansible_env.HOME }}/.kube state=directory
-- copy: src=/etc/kubernetes/admin.conf dest={{ ansible_env.HOME }}/.kube
+  file: path={{ ansible_env.HOME }}/.kube state=directory mode=600
+- shell: cp -p /etc/kubernetes/admin.conf {{ ansible_env.HOME }}/.kube/config
+
+- name: install pod network
+  script: install_pod_network.sh
+
 - name: debug register variable
   debug:
     var: with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]

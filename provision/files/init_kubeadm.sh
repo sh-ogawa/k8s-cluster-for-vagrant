@@ -2,4 +2,4 @@
 
 swapoff -a
 #kubeadm reset
-kubeadm init --apiserver-advertise-address 0.0.0.0 --ignore-preflight-errors all
+kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors all
