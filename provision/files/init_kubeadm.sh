@@ -2,4 +2,4 @@
 
 swapoff -a
 #kubeadm reset
-kubeadm init --ignore-preflight-errors all
+kubeadm init --apiserver-advertise-address 0.0.0.0 --ignore-preflight-errors all

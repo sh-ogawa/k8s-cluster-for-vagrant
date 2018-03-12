@@ -24,7 +24,9 @@
 - name: cluster initialize
   script: init_kubeadm.sh
   register: with_output
-    
+- name: mkdir .kube
+  file: path={{ ansible_env.HOME }}/.kube state=directory
+- copy: src=/etc/kubernetes/admin.conf dest={{ ansible_env.HOME }}/.kube
 - name: debug register variable
   debug:
     var: with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]
