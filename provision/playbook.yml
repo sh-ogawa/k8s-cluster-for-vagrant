@@ -4,10 +4,11 @@
   become: true
   roles:
     - docker
-    - k8s
+    - k8s-master
 
 - name: k8sで遊ぶためのCluster環境構築(node)
   hosts: nodes
   become: true
   roles:
     - docker
+    - k8s-node
