@@ -3,7 +3,6 @@
 - name: install kubernetes
   yum: name={{ item }} state=present
   with_items:
-    - etcd
     - kubelet
     - kubeadm
     - kubectl
@@ -16,11 +15,6 @@
     name: kubelet
     enabled: yes
     state: started
-- name: enable etcd
-  systemd:
-    name: etcd
-    enabled: yes
-    state: started
 - name: cluster initialize
   script: init_kubeadm.sh
   register: with_output
@@ -30,6 +24,10 @@
 
 - name: install pod network
   script: install_pod_network.sh
+
+- name: add fact join command
+  set_fact:
+    cluster_join: "{{ with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}] }}"
 
 - name: debug register variable
   debug:

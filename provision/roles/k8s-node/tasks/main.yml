@@ -3,23 +3,10 @@
 - name: install kubernetes
   yum: name={{ item }} state=present
   with_items:
-    - etcd
     - kubelet
     - kubeadm
     - kubectl
-- name: copy filesystem(diff file only)
-  copy: src=master01/etc dest=/
-- name: set k8s.conf
-  script: set_k8s_conf.sh
-- name: enable service k8s
-  systemd:
-    name: kubelet
-    enabled: yes
-    state: started
-- name: enable etcd
-  systemd:
-    name: etcd
-    enabled: yes
-    state: started
+- name: cluster initialize
+  script: init_kubeadm.sh
 - name: node initialize
-  shell: "with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]"
+  shell: "{{ cluster_join }}"
