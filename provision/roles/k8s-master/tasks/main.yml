@@ -18,17 +18,18 @@
 - name: cluster initialize
   script: init_kubeadm.sh
   register: with_output
+  ignore_errors: true # clean setup kubeadm reset error but no problem.
 - name: mkdir .kube
   file: path={{ ansible_env.HOME }}/.kube state=directory mode=600
 - shell: cp -p /etc/kubernetes/admin.conf {{ ansible_env.HOME }}/.kube/config
 
-- name: install pod network
-  script: install_pod_network.sh
-
 - name: add fact join command
   set_fact:
-    cluster_join: "{{ with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}] }}"
+    cluster_join: with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]
 
+- name: install pod network
+  script: install_pod_network.sh
+  
 - name: debug register variable
   debug:
-    var: with_output['stdout_lines'][{{ with_output['stdout_lines'] | length - 2 }}]
+    var: "{{ cluster_join }}"

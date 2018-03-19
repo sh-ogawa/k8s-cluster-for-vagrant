@@ -1,3 +1,6 @@
+- name: debug register variable
+  debug:
+    var: hostvars['master01'].with_output['stdout_lines'][{{ hostvars['master01'].with_output['stdout_lines'] | length - 2 }}]
 - name: copy yum.repo
   copy: src=master01/yum-repo/kubernetes.repo dest=/etc/yum.repos.d/
 - name: install kubernetes
@@ -9,4 +12,4 @@
 - name: cluster initialize
   script: init_kubeadm.sh
 - name: node initialize
-  shell: "{{ cluster_join }}"
+  shell: hostvars['master01'].with_output['stdout_lines'][{{ hostvars['master01'].with_output['stdout_lines'] | length - 2 }}]
