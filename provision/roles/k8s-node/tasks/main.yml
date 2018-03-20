@@ -11,5 +11,6 @@
     - kubectl
 - name: cluster initialize
   script: init_kubeadm.sh
+  ignore_errors: true # clean setup kubeadm reset error but no problem.
 - name: node initialize
   shell: "{{ hostvars['master01'].with_output['stdout_lines'][57] }}"
