@@ -1,6 +1,3 @@
-- name: debug register variable
-  debug:
-    var: hostvars['master01'].with_output['stdout_lines'][57]
 - name: copy yum.repo
   copy: src=master01/yum-repo/kubernetes.repo dest=/etc/yum.repos.d/
 - name: install kubernetes
@@ -9,13 +6,19 @@
     - kubelet
     - kubeadm
     - kubectl
+    
+- name: copy filesystem(dif	f file only)
+  copy: src=master01/etc dest=/
 - name: cluster initialize
   script: init_kubeadm.sh
   ignore_errors: true # clean setup kubeadm reset error but no problem.
+- name: set k8s.conf
+  script: set_k8s_conf.sh
 - name: enable service k8s
   systemd:
     name: kubelet
     enabled: yes
     state: started
+  
 - name: node initialize
   shell: "{{ hostvars['master01'].with_output['stdout_lines'][57] }}"
