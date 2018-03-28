@@ -21,4 +21,4 @@
     state: started
   
 - name: node initialize
-  shell: "{{ hostvars['master01'].with_output['stdout_lines'][57] }}"
+  shell: "{{ hostvars['master01'].with_output['stdout_lines'][50] }}"

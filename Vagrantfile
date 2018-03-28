@@ -30,6 +30,11 @@ Vagrant.configure("2") do |config|
   
   config.vm.define :controller do |node|
     node.vm.network :private_network, ip:"192.168.122.70"
+
+    node.vm.provider "virtualbox" do |vb|
+      vb.cpus = 1
+      vb.memory = 512
+    end
   
     node.vm.provision "shell" do |s|
       s.path  = "provision/copy-key.sh"
